@@ -1,84 +1,117 @@
 const questions = [
-    "Do you enjoy exploring unknown places without a plan?",
-    "Would you try a new cuisine in a foreign country?",
-    "Are you comfortable traveling solo to a remote location?"
+  "I enjoy exploring places I have never been before.",
+  "I prefer spontaneous plans over fixed schedules.",
+  "I like challenges that push me outside my comfort zone.",
+  "I enjoy carefully planning trips or projects before starting.",
+  "Trying something new excites me more than repeating something familiar.",
+  "I enjoy taking leadership when a group faces a difficult challenge.",
+  "I prefer solving problems creatively rather than following strict rules."
 ];
 
 let currentQuestion = 0;
-let answers = [];
+let scores = {
+  explorer: 0,
+  planner: 0,
+  challenger: 0
+};
 
 function startQuiz() {
-    document.getElementById('welcome').classList.add('hidden');
-    document.getElementById('quiz').classList.remove('hidden');
-    showQuestion();
+  document.getElementById("welcome").classList.add("hidden");
+  document.getElementById("quiz").classList.remove("hidden");
+  showQuestion();
 }
 
 function showQuestion() {
-    document.getElementById('questionText').textContent = questions[currentQuestion];
+  document.getElementById("questionText").textContent = questions[currentQuestion];
+  document.getElementById("questionCounter").textContent = `Question ${currentQuestion + 1} of ${questions.length}`;
+
+  const progressPercent = ((currentQuestion + 1) / questions.length) * 100;
+  document.getElementById("progressBar").style.width = `${progressPercent}%`;
 }
 
-function selectAnswer(choice) {
-    answers.push(choice);
-    currentQuestion++;
-    if (currentQuestion < questions.length) {
-        showQuestion();
-    } else {
-        document.getElementById('quiz').classList.add('hidden');
-        document.getElementById('result').classList.remove('hidden');
-        showResult();
-    }
+function selectAnswer(answer) {
+  if (currentQuestion === 0) {
+    if (answer === "agree") scores.explorer += 2;
+    if (answer === "neutral") scores.explorer += 1;
+    if (answer === "disagree") scores.planner += 1;
+  }
+
+  if (currentQuestion === 1) {
+    if (answer === "agree") scores.explorer += 2;
+    if (answer === "neutral") scores.explorer += 1;
+    if (answer === "disagree") scores.planner += 2;
+  }
+
+  if (currentQuestion === 2) {
+    if (answer === "agree") scores.challenger += 2;
+    if (answer === "neutral") scores.explorer += 1;
+    if (answer === "disagree") scores.planner += 1;
+  }
+
+  if (currentQuestion === 3) {
+    if (answer === "agree") scores.planner += 2;
+    if (answer === "neutral") scores.planner += 1;
+    if (answer === "disagree") scores.explorer += 1;
+  }
+
+  if (currentQuestion === 4) {
+    if (answer === "agree") scores.explorer += 2;
+    if (answer === "neutral") scores.challenger += 1;
+    if (answer === "disagree") scores.planner += 1;
+  }
+
+  if (currentQuestion === 5) {
+    if (answer === "agree") scores.challenger += 2;
+    if (answer === "neutral") scores.explorer += 1;
+    if (answer === "disagree") scores.planner += 1;
+  }
+
+  if (currentQuestion === 6) {
+    if (answer === "agree") scores.challenger += 2;
+    if (answer === "neutral") scores.explorer += 1;
+    if (answer === "disagree") scores.planner += 2;
+  }
+
+  currentQuestion++;
+
+  if (currentQuestion < questions.length) {
+    showQuestion();
+  } else {
+    showResults();
+  }
 }
 
-function showResult() {
-    const agreeCount = answers.filter(a => a === 'agree').length;
-    const neutralCount = answers.filter(a => a === 'neutral').length;
-    const disagreeCount = answers.filter(a => a === 'disagree').length;
+function showResults() {
+  document.getElementById("quiz").classList.add("hidden");
+  document.getElementById("result").classList.remove("hidden");
 
-    let result = '';
-    if (agreeCount >= 2) {
-        result = 'Brave';
-    } else if (neutralCount >= 2) {
-        result = 'Cautious';
-    } else {
-        result = 'Enthusiast';
-    }
+  let resultType = "Explorer";
+  let resultDescription = "You are curious, adventurous, and energized by discovering new experiences.";
+  let resultIcon = "🧭";
 
-    document.getElementById('resultText').textContent = `You are a ${result}!`;
+  if (scores.planner >= scores.explorer && scores.planner >= scores.challenger) {
+    resultType = "Planner";
+    resultDescription = "You enjoy structure, thoughtful decisions, and making sure every step has purpose.";
+    resultIcon = "🗺️";
+  } else if (scores.challenger >= scores.explorer && scores.challenger >= scores.planner) {
+    resultType = "Challenger";
+    resultDescription = "You thrive on bold choices, exciting risks, and pushing boundaries with confidence.";
+    resultIcon = "⛰️";
+  }
 
-    // Send result type to backend
-    trackPersonality(result);
-
-    function trackPersonality(resultType) {
-        fetch('https://your-api-id.amazonaws.com/dev/track-result', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ result: resultType })
-        })
-            .then(res => res.json())
-            .then(data => console.log(data.message))
-            .catch(err => console.error('Error tracking personality:', err));
-    }
-
+  document.getElementById("resultText").textContent = resultType;
+  document.getElementById("resultDescription").textContent = resultDescription;
+  document.getElementById("resultIcon").textContent = resultIcon;
 }
 
-function trackPersonality(resultType) {
-    fetch('https://your-api-endpoint.amazonaws.com/track-personality', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ result: resultType, timestamp: new Date().toISOString() })
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Failed to track result');
-            }
-            return response.json();
-        })
-        .then(data => console.log('Tracked result:', data))
-        .catch(error => console.error('Tracking error:', error));
+function restartQuiz() {
+  currentQuestion = 0;
+  scores = {
+    explorer: 0,
+    planner: 0,
+    challenger: 0
+  };
+
+  document.getElementById("result").classList.add("hidden");
+  document.getElementById("welcome").classList.remove("hidden");
 }
-
-
-
-
