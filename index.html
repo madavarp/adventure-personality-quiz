@@ -1,33 +1,90 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Adventure Quiz</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Adventure Personality Quiz</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div id="welcome" class="container">
-    <h1>Welcome to the Adventure Quiz</h1>
-    <p>Discover your adventure personality!</p>
-    <button onclick="startQuiz()">Start</button>
-  </div>
+  <div class="background-overlay"></div>
 
-  <div id="quiz" class="container hidden">
-    <h2 id="questionText"></h2>
-    <div class="options">
-      <button onclick="selectAnswer('agree')">Agree</button>
-      <button onclick="selectAnswer('neutral')">Neutral</button>
-      <button onclick="selectAnswer('disagree')">Disagree</button>
-    </div>
-  </div>
+  <main class="app-shell">
+    <!-- WELCOME SCREEN -->
+    <section id="welcome" class="screen active">
+      <div class="glass-card hero-card">
+        <span class="badge">Interactive Personality Experience</span>
+        <h1>Adventure Personality Quiz</h1>
+        <p class="hero-text">
+          Answer 7 engaging questions and discover the kind of adventurer you are.
+          This experience is designed to feel fast, modern, and fun.
+        </p>
 
- 
-  <div id="result" class="container hidden">
-    <h2>Your Adventure Personality</h2>
-    <div id="resultText" class="result"></div>
-  </div>
+        <div class="feature-row">
+          <div class="feature-pill">7 Thoughtful Questions</div>
+          <div class="feature-pill">Instant Personality Result</div>
+          <div class="feature-pill">Modern UI Experience</div>
+        </div>
+
+        <button class="primary-btn" onclick="startQuiz()">Start Your Journey</button>
+      </div>
+    </section>
+
+    <!-- QUIZ SCREEN -->
+    <section id="quiz" class="screen hidden">
+      <div class="glass-card quiz-card">
+        <div class="quiz-topbar">
+          <span id="questionCounter" class="counter">Question 1 of 7</span>
+          <div class="progress-track">
+            <div id="progressBar" class="progress-fill"></div>
+          </div>
+        </div>
+
+        <div class="question-block">
+          <h2 id="questionText">Question goes here</h2>
+          <p class="question-subtext">
+            Choose the option that best matches your instinct.
+          </p>
+        </div>
+
+        <div class="options">
+          <button class="option-btn agree" onclick="selectAnswer('agree')">
+            <span class="option-title">Agree</span>
+            <span class="option-desc">This sounds most like me</span>
+          </button>
+
+          <button class="option-btn neutral" onclick="selectAnswer('neutral')">
+            <span class="option-title">Neutral</span>
+            <span class="option-desc">I am somewhere in between</span>
+          </button>
+
+          <button class="option-btn disagree" onclick="selectAnswer('disagree')">
+            <span class="option-title">Disagree</span>
+            <span class="option-desc">This does not feel like me</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESULT SCREEN -->
+    <section id="result" class="screen hidden">
+      <div class="glass-card result-card">
+        <span class="badge">Your Personality Result</span>
+        <h2>Your Adventure Style</h2>
+
+        <div id="resultIcon" class="result-icon">🧭</div>
+        <div id="resultText" class="result-title">Explorer</div>
+        <p id="resultDescription" class="result-description">
+          You are driven by curiosity, excitement, and the thrill of discovering
+          something new.
+        </p>
+
+        <div class="result-actions">
+          <button class="primary-btn" onclick="restartQuiz()">Retake Quiz</button>
+        </div>
+      </div>
+    </section>
+  </main>
 
   <script src="script.js"></script>
 </body>
