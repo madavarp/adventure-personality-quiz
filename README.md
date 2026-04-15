@@ -10,7 +10,7 @@ This project demonstrates **frontend development, interactive UI design, and dyn
 
 If hosted, add your live link here:
 
-[`https://your-site-link.com`](https://adventure-quiz.netlify.app/)
+(https://adventure-quiz.netlify.app/)
 
 ---
 
