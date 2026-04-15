@@ -8,8 +8,6 @@ This project demonstrates **frontend development, interactive UI design, and dyn
 
 ## Live Demo
 
-If hosted, add your live link here:
-
 (https://adventure-quiz.netlify.app/)
 
 ---
